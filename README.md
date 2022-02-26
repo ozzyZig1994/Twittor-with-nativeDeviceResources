@@ -1,19 +1,25 @@
-# Notas:
+# Notes:
 
-Este es un pequeño servidor de express listo para ejecutarse y servir la carpeta public en la web.
+This is a small express server ready to run and serve the public folder on the web.
 
-Recuerden que deben de reconstruir los módulos de node con el comando
+Remember that you must rebuild the node modules with the command
+
+Access to the device's native resources such as geolocation or the front and rear camera
+
+![](./nativeResorces1.png "nativeResorces1")
+![](./nativeResorces2.png "nativeResorces2")
+![](./nativeResorces3.png "nativeResorces3")
 
 ```
 npm install
 ```
 
-Luego, para correr en producción
+Then, to run in production
 ```
 npm start
 ```
 
-Para correr en desarrollo
+To run in development
 ```
 npm run dev
 ```
