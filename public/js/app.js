@@ -81,12 +81,16 @@ const camara = new Camara(document.getElementById('player'));
 
 // ===== Codigo de la aplicación
 
-function crearMensajeHTML(mensaje, personaje, lat, lng) {
+function crearMensajeHTML(mensaje, personaje, lat, lng, foto) {
 
     // console.log(mensaje, personaje, lat, lng);
 
     var content =`
     <li class="animated fadeIn fast"
+        data-user="${personaje}"
+        data-mensaje="${mensaje}"
+        data-lat="${lat}"
+        data-lng="${lng}"
         data-tipo="mensaje">
 
 
@@ -245,7 +249,8 @@ postBtn.on('click', function() {
         mensaje: mensaje,
         user: usuario,
         lat: lat,
-        lng: lng
+        lng: lng,
+        foto: foto
     };
 
 
@@ -260,10 +265,9 @@ postBtn.on('click', function() {
     .then( res => console.log( 'app.js', res ))
     .catch( err => console.log( 'app.js error:', err ));
 
-    //camera.apagar();
     contenedorCamara.addClass('oculto');
 
-    crearMensajeHTML( mensaje, usuario, lat, lng );
+    crearMensajeHTML( mensaje, usuario, lat, lng, foto );
     
     foto = null;
 });
@@ -521,11 +525,38 @@ btnTomarFoto.on('click', () => {
 
     camara.apagar();
 
-    console.log(foto);
+    //console.log(foto);
 });
 
 
 // Share API
+/*if (navigator.share) {
+    console.log('Navigator lo soporta');
+} else {
+    console.log('Navegador No lo soporta');
+}*/
 
+timeline.on('click', 'li', function() {
+    let tipo = $(this).data('tipo');
+    let lat = $(this).data('lat');
+    let lng = $(this).data('lng');
+    let mensaje = $(this).data('mensaje');
+    let user = $(this).data('user');
 
+    console.log({tipo, lat, lng, mensaje, user});
 
+    const shareOpts = {
+        title: user,
+        text: mensaje
+    }
+
+    if (tipo == 'mapa') {
+        shareOpts.text = 'Mapa';
+        shareOpts.url = `https://www.google.com/maps/@${lat},${lng},15z`;
+    }
+
+    if (navigator.share) 
+        navigator.share(shareOpts)
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error));
+})
