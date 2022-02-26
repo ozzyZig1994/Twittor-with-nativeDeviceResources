@@ -76,7 +76,8 @@ var foto = null;
 // El usuario, contiene el ID del héroe seleccionado
 var usuario;
 
-
+// Init de la camara class
+const camara = new Camara(document.getElementById('player'));
 
 // ===== Codigo de la aplicación
 
@@ -504,8 +505,10 @@ btnLocation.on('click', () => {
 // que jQuery me cambie el valor del this
 btnPhoto.on('click', () => {
 
-    console.log('Inicializar camara');
+    //console.log('Inicializar camara');
+    contenedorCamara.removeClass('oculto');
 
+    camara.encender();
 });
 
 
