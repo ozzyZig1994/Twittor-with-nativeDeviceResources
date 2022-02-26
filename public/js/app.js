@@ -80,7 +80,7 @@ var usuario;
 
 // ===== Codigo de la aplicación
 
-function crearMensajeHTML(mensaje, personaje, lat, lng, foto) {
+function crearMensajeHTML(mensaje, personaje, lat, lng) {
 
     // console.log(mensaje, personaje, lat, lng);
 
@@ -244,8 +244,7 @@ postBtn.on('click', function() {
         mensaje: mensaje,
         user: usuario,
         lat: lat,
-        lng: lng,
-        foto: foto
+        lng: lng
     };
 
 
@@ -260,10 +259,10 @@ postBtn.on('click', function() {
     .then( res => console.log( 'app.js', res ))
     .catch( err => console.log( 'app.js error:', err ));
 
-    camera.apagar();
+    //camera.apagar();
     contenedorCamara.addClass('oculto');
 
-    crearMensajeHTML( mensaje, usuario, lat, lng, foto );
+    crearMensajeHTML( mensaje, usuario, lat, lng );
     
     foto = null;
 });
@@ -277,6 +276,7 @@ function getMensajes() {
         .then( res => res.json() )
         .then( posts => {
 
+            console.log(posts);
 
             posts.forEach( post => 
                 crearMensajeHTML( post.mensaje, post.user, post.lat, post.lng, post.foto ));
@@ -481,8 +481,19 @@ function mostrarMapaModal(lat, lng) {
 // Obtener la geolocalización
 btnLocation.on('click', () => {
 
-    console.log('Botón geolocalización');
-    
+    // console.log('Botón geolocalización');
+    $.mdtoast('Cargando mapa... ', {
+        interaction: true,
+        interactionTimeout: 2000,
+        actionText: 'Ok!'
+    });
+
+    navigator.geolocation.getCurrentPosition(pos => {
+        console.log(pos);
+        mostrarMapaModal(pos.coords.latitude, pos.coords.longitude);
+        lat = pos.coords.latitude;
+        lng = pos.coords.longitude;
+    });
 
 });
 
